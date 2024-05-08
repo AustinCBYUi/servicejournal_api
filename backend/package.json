@@ -1,0 +1,26 @@
+{
+  "name": "servicejournal_api",
+  "version": "1.0.0",
+  "description": "service journal api by AC",
+  "main": "index.js",
+  "scripts": {
+    "test": "",
+    "dev": "nodemon index.js",
+    "start": "node index.js",
+    "docs": "node ./swagger.js"
+  },
+  "author": "Austin Campbell",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "dotenv": "^16.4.5",
+    "eslint": "^9.2.0",
+    "express": "^4.19.2",
+    "mongodb": "^6.6.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0",
+    "swagger-autogen": "^2.23.7",
+    "swagger-ui-express": "^5.0.0"
+  }
+}
