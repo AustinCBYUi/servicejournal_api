@@ -63,26 +63,22 @@ const createClient = async (req, res) => {
 const updateClient = async (req, res) => {
     const clientId = ObjectId.createFromHexString(req.params.id);
     const client = {
-        client: [
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        age: req.body.age,
+        address: [
             {
-                firstName: req.body.firstName,
-                lastName: req.body.lastName,
-                age: req.body.age,
-                address: [
-                    {
-                        streetAddress: req.body.streetAddress,
-                        unit: req.body.unit,
-                        city: req.body.city,
-                        state: req.body.state,
-                        postalCode: req.body.postalCode
-                    }
-                ],
-                phoneNumber: [
-                    {
-                        type: req.body.type,
-                        number: req.body.number
-                    }
-                ]
+                streetAddress: req.body.streetAddress,
+                unit: req.body.unit,
+                city: req.body.city,
+                state: req.body.state,
+                postalCode: req.body.postalCode
+            }
+        ],
+        phoneNumber: [
+            {
+                type: req.body.type,
+                number: req.body.number
             }
         ]
     };

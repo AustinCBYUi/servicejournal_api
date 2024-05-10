@@ -8,8 +8,8 @@
   "host": "localhost:3030",
   "basePath": "/",
   "schemes": [
-    "https",
-    "http"
+    "",
+    ""
   ],
   "paths": {
     "/api-docs": {
