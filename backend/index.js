@@ -20,8 +20,7 @@ api
         next();
     })
     .use("/client", clientRoute)
-    //Not yet implemented, comment out to run server.
-    .use("/serviceticket", ticketRoute) //Experimental;
+    .use("/serviceticket", ticketRoute);
 
 mongo.initializeDb((error) => {
     if (error) {
