@@ -3,8 +3,8 @@ const ObjectId = require("mongodb").ObjectId;
 
 
 
-const getAll = async(res) => {
-    const result = await mongo.lassoDb().db().collection("clients").find();
+const getAll = async (req, res) => {
+    const result = await mongo.lassoDb().db().collection("sj_clients").find();
     if (result) {
         result.toArray().then((clients) => {
             res.setHeader("Content-Type", "application/json");
@@ -17,9 +17,9 @@ const getAll = async(res) => {
 };
 
 
-const getSingle = async(req, res) => {
+const getSingle = async (req, res) => {
     const clientId = ObjectId.createFromHexString(req.params.id);
-    const result = await mongo.lassoDb().db().collection("clients").find({ _id: clientId });
+    const result = await mongo.lassoDb().db().collection("sj_clients").find({ _id: clientId });
     if (result) {
         result.toArray().then((clients) => {
             res.setHeader("Content-Type", "application/json");
@@ -43,12 +43,15 @@ const createClient = async (req, res) => {
             state: req.body.state,
             postalCode: req.body.postalCode
         },
-        phoneNumber: {
-            type: req.body.type,
-            number: req.body.number
-        }
+        phoneNumber: 
+        [
+            {
+                type: req.body.type,
+                number: req.body.number
+            }
+        ]
     };
-    const response = await mongo.lassoDb().db().collection("clients").insertOne(client);
+    const response = await mongo.lassoDb().db().collection("sj_clients").insertOne(client);
     if (response.ok) {
         res.status(204).send();
     } else {
@@ -60,22 +63,30 @@ const createClient = async (req, res) => {
 const updateClient = async (req, res) => {
     const clientId = ObjectId.createFromHexString(req.params.id);
     const client = {
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        age: req.body.age,
-        address: {
-            streetAddress: req.body.streetAddress,
-            unit: req.body.unit,
-            city: req.body.city,
-            state: req.body.state,
-            postalCode: req.body.postalCode
-        },
-        phoneNumber: {
-            type: req.body.type,
-            number: req.body.number
-        }
+        client: [
+            {
+                firstName: req.body.firstName,
+                lastName: req.body.lastName,
+                age: req.body.age,
+                address: [
+                    {
+                        streetAddress: req.body.streetAddress,
+                        unit: req.body.unit,
+                        city: req.body.city,
+                        state: req.body.state,
+                        postalCode: req.body.postalCode
+                    }
+                ],
+                phoneNumber: [
+                    {
+                        type: req.body.type,
+                        number: req.body.number
+                    }
+                ]
+            }
+        ]
     };
-    const response = await mongo.lassoDb().db().collection("clients").replaceOne({ _id: clientId }, client);
+    const response = await mongo.lassoDb().db().collection("sj_clients").replaceOne({ _id: clientId }, client);
     if (response.modifiedCount > 0) {
         res.status(204).send();
     } else {
@@ -86,7 +97,7 @@ const updateClient = async (req, res) => {
 
 const deleteClient = async (req, res) => {
     const clientId = ObjectId.createFromHexString(req.params.id);
-    const response = await mongo.lassoDb().db().collection("clients").deleteOne({ _id: clientId });
+    const response = await mongo.lassoDb().db().collection("sj_clients").deleteOne({ _id: clientId });
     if (response.ok) {
         res.status(204).send();
     } else {

@@ -4,7 +4,7 @@ const MongoClient = require("mongodb").MongoClient;
 const mongo = require("./db/lasso");
 const clientRoute = require("./routes/client");
 //Not yet implemented, commented out to run server. vvv
-// const ticketRoute = require("./routes/serviceticket");
+const ticketRoute = require("./routes/serviceticket");
 const swagger = require("swagger-autogen");
 const swaggerUI = require("swagger-ui-express");
 const swaggerDoc = require("./swagger.json");
@@ -15,13 +15,13 @@ const api = express();
 api
     .use(bodyParse.json())
     .use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDoc))
-    .use((res, next) => {
+    .use((req, res, next) => {
         res.setHeader("Access-Control-Allow-Origin", "*");
         next();
     })
     .use("/client", clientRoute)
     //Not yet implemented, comment out to run server.
-    // .use("/serviceticket", ticketRoute) //Experimental;
+    .use("/serviceticket", ticketRoute) //Experimental;
 
 mongo.initializeDb((error) => {
     if (error) {
