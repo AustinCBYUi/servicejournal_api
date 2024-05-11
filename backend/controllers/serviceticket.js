@@ -23,7 +23,7 @@ const getSingle = async (req, res) => {
             res.setHeader("Content-Type", "application/json");
             res.status(200).json(tickets[0]);
         });
-    } else if (!result) {
+    } else if (ticketId != result.ticketId) {
         res.status(501).json(response.error || `The service ticket by ${ticketId} was not found!`)
     } else {
         res.status(500).json(response.error || "An error has occurred while attempting to retrieve a single service ticket.");
@@ -47,7 +47,7 @@ const createTicket = async (req, res) => {
         ]
     };
     const response = await mongo.lassoDb().db().collection("sj_tickets").insertOne(ticket);
-    if (response.ok) {
+    if (response) {
         res.status(204).send();
     } else {
         res.status(500).json(response.error || "An error occurred while attempting to create a new service ticket.");
@@ -83,7 +83,7 @@ const updateTicket = async (req, res) => {
 const deleteTicket = async (req, res) => {
     const ticketId = ObjectId.createFromHexString(req.params.id);
     const response = await mongo.lassoDb().db().collection("sj_tickets").deleteOne({ _id: ticketId });
-    if (response.ok) {
+    if (response) {
         res.status(204).send();
     } else {
         res.status(500).json(response.error || `An error occurred while attempting to delete ${response.firstName}'s service ticket.`);

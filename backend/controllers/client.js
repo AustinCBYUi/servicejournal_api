@@ -25,7 +25,7 @@ const getSingle = async (req, res) => {
             res.setHeader("Content-Type", "application/json");
             res.status(200).json(clients[0]);
         });
-    } else if (clientId != result) {
+    } else if (clientId != result.clientId) {
         res.status(501).json(response.error || `The client ID ${clientId} does not appear to exist.`);
     } else {
         res.status(500).json(response.error || "An error has occurred while attempting to get a single client.");
@@ -54,7 +54,7 @@ const createClient = async (req, res) => {
         ]
     };
     const response = await mongo.lassoDb().db().collection("sj_clients").insertOne(client);
-    if (response.ok) {
+    if (response) {
         res.status(204).send();
     } else {
         res.status(500).json(response.error || "An error occurred while attempting to create a new client..!");
@@ -96,7 +96,7 @@ const updateClient = async (req, res) => {
 const deleteClient = async (req, res) => {
     const clientId = ObjectId.createFromHexString(req.params.id);
     const response = await mongo.lassoDb().db().collection("sj_clients").deleteOne({ _id: clientId });
-    if (response.ok) {
+    if (response) {
         res.status(204).send();
     } else {
         res.status(500).json(response.error || "An error occurred while attempting to delete the client..!");
