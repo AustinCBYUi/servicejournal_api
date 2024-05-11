@@ -3,7 +3,8 @@
   "info": {
     "title": "Service Journal API",
     "description": "An application program interface to manage data for the service journal application.",
-    "version": "1.0.0"
+    "version": "1.0.3",
+    "author": "Austin Campbell @ BYU-Idaho"
   },
   "host": "localhost:3030",
   "basePath": "/",
@@ -12,33 +13,23 @@
     ""
   ],
   "paths": {
-    "/api-docs": {
-      "get": {
-        "description": "",
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      }
-    },
     "/client/": {
       "get": {
-        "description": "",
+        "description": "Retrieves all clients from the database, returns them in json format.",
         "produces": [
           "application/json"
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Response is OK!"
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Response is NOT OK, something malfunctioned or is not connected correctly."
           }
         }
       },
       "post": {
-        "description": "",
+        "description": "Creates a new client that is sent to be stored in the database in json format.",
         "parameters": [
           {
             "name": "body",
@@ -47,34 +38,34 @@
               "type": "object",
               "properties": {
                 "firstName": {
-                  "example": "any"
+                  "example": "John"
                 },
                 "lastName": {
-                  "example": "any"
+                  "example": "Doe"
                 },
                 "age": {
-                  "example": "any"
+                  "example": "35"
                 },
                 "streetAddress": {
-                  "example": "any"
+                  "example": "8707 N Greenway Rd"
                 },
                 "unit": {
-                  "example": "any"
+                  "example": "N/A"
                 },
                 "city": {
-                  "example": "any"
+                  "example": "Glendale"
                 },
                 "state": {
-                  "example": "any"
+                  "example": "AZ"
                 },
                 "postalCode": {
-                  "example": "any"
+                  "example": "85047"
                 },
                 "type": {
-                  "example": "any"
+                  "example": "Cell"
                 },
                 "number": {
-                  "example": "any"
+                  "example": "(623)818-9715"
                 }
               }
             }
@@ -82,17 +73,17 @@
         ],
         "responses": {
           "204": {
-            "description": "No Content"
+            "description": "POST was successful."
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "POST was unsuccessful."
           }
         }
       }
     },
     "/client/{id}": {
       "get": {
-        "description": "",
+        "description": "Retrieves an individual client from the database by the {id} number.",
         "produces": [
           "application/json"
         ],
@@ -106,15 +97,18 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Client was retrieved successfully."
+          },
+          "501": {
+            "description": "Client ID was not found."
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Client ID was not retrieved"
           }
         }
       },
       "put": {
-        "description": "",
+        "description": "Updates a client's information in the database, uses modifiedCount to verify if fields were changed.",
         "parameters": [
           {
             "name": "id",
@@ -129,34 +123,34 @@
               "type": "object",
               "properties": {
                 "firstName": {
-                  "example": "any"
+                  "example": "John"
                 },
                 "lastName": {
-                  "example": "any"
+                  "example": "DoLittle"
                 },
                 "age": {
-                  "example": "any"
+                  "example": "34"
                 },
                 "streetAddress": {
-                  "example": "any"
+                  "example": "8707 N Greenway Rd"
                 },
                 "unit": {
-                  "example": "any"
+                  "example": "N/A"
                 },
                 "city": {
-                  "example": "any"
+                  "example": "Glendale"
                 },
                 "state": {
-                  "example": "any"
+                  "example": "AZ"
                 },
                 "postalCode": {
-                  "example": "any"
+                  "example": "85047"
                 },
                 "type": {
-                  "example": "any"
+                  "example": "Cell"
                 },
                 "number": {
-                  "example": "any"
+                  "example": "(623)818-9715"
                 }
               }
             }
@@ -164,15 +158,15 @@
         ],
         "responses": {
           "204": {
-            "description": "No Content"
+            "description": "Fields were changed and pushed to the database."
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Fields were NOT changed, an error occurred."
           }
         }
       },
       "delete": {
-        "description": "",
+        "description": "Deletes a client from the database by {id} number.",
         "parameters": [
           {
             "name": "id",
@@ -183,31 +177,31 @@
         ],
         "responses": {
           "204": {
-            "description": "No Content"
+            "description": "Client was deleted from the database."
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Client was not deleted from the database, an error occurred."
           }
         }
       }
     },
     "/serviceticket/": {
       "get": {
-        "description": "",
+        "description": "Retrieves all service tickets that are stored in the service ticket database.",
         "produces": [
           "application/json"
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Response is OK!"
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Response is NOT OK, something malfunctioned or is not connected correctly."
           }
         }
       },
       "post": {
-        "description": "",
+        "description": "Creates a new service ticket for a client. The cliendId, firstName and lastName should match the client database as well.",
         "parameters": [
           {
             "name": "body",
@@ -216,28 +210,28 @@
               "type": "object",
               "properties": {
                 "clientId": {
-                  "example": "any"
+                  "example": "{id}"
                 },
                 "firstName": {
-                  "example": "any"
+                  "example": "John"
                 },
                 "lastName": {
-                  "example": "any"
+                  "example": "Doe"
                 },
                 "title": {
-                  "example": "any"
+                  "example": "General Maintenance"
                 },
                 "price": {
-                  "example": "any"
+                  "example": "$40.00"
                 },
                 "date": {
-                  "example": "any"
+                  "example": "23OCT2024"
                 },
                 "mileage": {
-                  "example": "any"
+                  "example": "34000"
                 },
                 "desc": {
-                  "example": "any"
+                  "example": "Oil change. Oil used was Valvoline 10W-30 (5 quarts), and used a AutoZone oil filter."
                 }
               }
             }
@@ -245,17 +239,17 @@
         ],
         "responses": {
           "204": {
-            "description": "No Content"
+            "description": "Service ticket was created and sent to the database successfully."
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "An error occurred."
           }
         }
       }
     },
     "/serviceticket/{id}": {
       "get": {
-        "description": "",
+        "description": "Retrieves a specific service ticket by the {id} of the service ticket, this endpoint will be updated to search by: customer Id, first name or last name.",
         "produces": [
           "application/json"
         ],
@@ -269,15 +263,18 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Retrieved the service ticket that was requested."
+          },
+          "501": {
+            "description": "The service ticket by {id} was not found."
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Service ticket was not retrieved, an error occurred."
           }
         }
       },
       "put": {
-        "description": "",
+        "description": "Updates the service ticket in the database, uses modifiedCount to verify if fields were changed.",
         "parameters": [
           {
             "name": "id",
@@ -292,28 +289,28 @@
               "type": "object",
               "properties": {
                 "clientId": {
-                  "example": "any"
+                  "example": "{id}"
                 },
                 "firstName": {
-                  "example": "any"
+                  "example": "Johnny"
                 },
                 "lastName": {
-                  "example": "any"
+                  "example": "Doberman"
                 },
                 "title": {
-                  "example": "any"
+                  "example": "General Maintenance"
                 },
                 "price": {
-                  "example": "any"
+                  "example": "$40.00"
                 },
                 "date": {
-                  "example": "any"
+                  "example": "23OCT2024"
                 },
                 "mileage": {
-                  "example": "any"
+                  "example": "34000"
                 },
                 "desc": {
-                  "example": "any"
+                  "example": "Oil change. Oil used was Valvoline 10W-30 (5 quarts), and used a AutoZone oil filter."
                 }
               }
             }
@@ -321,15 +318,15 @@
         ],
         "responses": {
           "204": {
-            "description": "No Content"
+            "description": "Service ticket contents were updated and pushed to the database."
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Service ticket was not updated, an error occurred."
           }
         }
       },
       "delete": {
-        "description": "",
+        "description": "Deletes a service ticket from the database.",
         "parameters": [
           {
             "name": "id",
@@ -340,10 +337,10 @@
         ],
         "responses": {
           "204": {
-            "description": "No Content"
+            "description": "Service ticket was deleted from the database."
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Service ticket was not deleted, an error occurred."
           }
         }
       }

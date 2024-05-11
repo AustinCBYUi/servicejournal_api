@@ -23,6 +23,8 @@ const getSingle = async (req, res) => {
             res.setHeader("Content-Type", "application/json");
             res.status(200).json(tickets[0]);
         });
+    } else if (!result) {
+        res.status(501).json(response.error || `The service ticket by ${ticketId} was not found!`)
     } else {
         res.status(500).json(response.error || "An error has occurred while attempting to retrieve a single service ticket.");
     };
