@@ -20,7 +20,7 @@ const getAll = async (req, res) => {
 const getSingle = async (req, res) => {
     const clientId = ObjectId.createFromHexString(req.params.id);
     const result = await mongo.lassoDb().db().collection("sj_clients").find({ _id: clientId });
-    if (result) {
+    if (result == result.clientId) {
         result.toArray().then((clients) => {
             res.setHeader("Content-Type", "application/json");
             res.status(200).json(clients[0]);
