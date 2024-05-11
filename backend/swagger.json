@@ -6,11 +6,10 @@
     "version": "1.0.3",
     "author": "Austin Campbell @ BYU-Idaho"
   },
-  "host": "localhost:3030",
+  "host": "servicejournal-api.onrender.com",
   "basePath": "/",
   "schemes": [
-    "https",
-    ""
+    "https"
   ],
   "paths": {
     "/client/": {
