@@ -25,7 +25,7 @@ const getSingle = async (req, res) => {
             res.setHeader("Content-Type", "application/json");
             res.status(200).json(clients[0]);
         });
-    } else if (!result) {
+    } else if (clientId != result) {
         res.status(501).json(response.error || `The client ID ${clientId} does not appear to exist.`);
     } else {
         res.status(500).json(response.error || "An error has occurred while attempting to get a single client.");
