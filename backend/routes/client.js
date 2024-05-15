@@ -7,8 +7,8 @@ const router = express.Router();
 router
     .get("/", clientController.getAll)
     .get("/:id", clientController.getSingle)
-    .post("/", clientController.createClient)
-    .put("/:id", clientController.updateClient)
+    .post("/", validate.saveClient, clientController.createClient)
+    .put("/:id", validate.saveClient, clientController.updateClient)
     .delete("/:id", clientController.deleteClient)
 
 module.exports = router;

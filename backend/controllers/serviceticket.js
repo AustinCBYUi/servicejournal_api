@@ -16,6 +16,9 @@ const getAll = async (req, res) => {
 
 
 const getSingle = async (req, res) => {
+    if (!ObjectId.isValid(req.params.id)) {
+        res.status(400).json("Must use a valid client ID to find a client.")
+    }
     const ticketId = ObjectId.createFromHexString(req.params.id);
     const result = await mongo.lassoDb().db().collection("sj_tickets").find({ _id: ticketId });
     if (result) {
@@ -56,6 +59,9 @@ const createTicket = async (req, res) => {
 
 
 const updateTicket = async (req, res) => {
+    if (!ObjectId.isValid(req.params.id)) {
+        res.status(400).json("Must use a valid client ID to find a client.")
+    }
     const ticketId = ObjectId.createFromHexString(req.params.id);
     const ticket = {
         clientId: req.body.clientId,
@@ -81,6 +87,9 @@ const updateTicket = async (req, res) => {
 
 
 const deleteTicket = async (req, res) => {
+    if (!ObjectId.isValid(req.params.id)) {
+        res.status(400).json("Must use a valid client ID to find a client.")
+    }
     const ticketId = ObjectId.createFromHexString(req.params.id);
     const response = await mongo.lassoDb().db().collection("sj_tickets").deleteOne({ _id: ticketId });
     if (response) {
