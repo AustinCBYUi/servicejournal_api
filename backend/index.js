@@ -22,6 +22,12 @@ api
     .use("/client", clientRoute)
     .use("/serviceticket", ticketRoute);
 
+//Testing
+process.on("uncaughtException", (error, origin) => {
+    console.log(process.stderr.fd, `Caught error at -> ${err}\n` + `Error Origin -> ${origin}`);
+});
+
+
 mongo.initializeDb((error) => {
     if (error) {
         console.log(error);

@@ -18,18 +18,17 @@ const getAll = async (req, res) => {
 
 
 const getSingle = async (req, res) => {
+    if (!ObjectId.isValid(req.params.id)) {
+        res.status(400).json("Must use a valid client ID to find a client.")
+    }
     const clientId = ObjectId.createFromHexString(req.params.id);
-    const result = await mongo.lassoDb().db().collection("sj_clients").find({ _id: clientId });
-    if (result) {
-        result.toArray().then((clients) => {
-            res.setHeader("Content-Type", "application/json");
-            res.status(200).json(clients[0]);
-        });
-    } else if (!result) {
-        res.status(501).json(response.error || `The client ID ${clientId} does not appear to exist.`);
-    } else {
-        res.status(500).json(response.error || "An error has occurred while attempting to get a single client.");
-    };
+    mongo.lassoDb().db().collection("sj_clients").find({ _id: clientId }).toArray((error, result) => {
+        if (error) {
+            res.status(400).json({ message: error});
+        }
+        res.setHeader("Content-Type", "application/json");
+        res.status(200).json(result[0]);
+    });
 };
 
 
@@ -63,6 +62,9 @@ const createClient = async (req, res) => {
 
 
 const updateClient = async (req, res) => {
+    if (!ObjectId.isValid(req.params.id)) {
+        res.status(400).json("Must use a valid client ID to find a client.")
+    }
     const clientId = ObjectId.createFromHexString(req.params.id);
     const client = {
         firstName: req.body.firstName,
@@ -94,6 +96,9 @@ const updateClient = async (req, res) => {
 
 
 const deleteClient = async (req, res) => {
+    if (!ObjectId.isValid(req.params.id)) {
+        res.status(400).json("Must use a valid client ID to find a client.")
+    }
     const clientId = ObjectId.createFromHexString(req.params.id);
     const response = await mongo.lassoDb().db().collection("sj_clients").deleteOne({ _id: clientId });
     if (response) {
