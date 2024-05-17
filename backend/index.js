@@ -13,9 +13,6 @@ const swaggerDoc = require("./swagger.json");
 const { auth, requiresAuth } = require("express-openid-connect");
 require("dotenv").config();
 
-const port = process.env.PORT || 3030;
-const api = express();
-
 
 const config = {
     authRequired: false,
@@ -27,24 +24,20 @@ const config = {
 };
 
 
-mongoose.connect(process.env.DB_CONN,
-    { useNewUrlParser: true }, (error, res) => {
-        if (error) {
-            console.log("Connection failed: " + error);
-        } else {
-            console.log("Connected to Database.");
-        }
-    }
-);
+const port = process.env.PORT || 3030;
+const api = express();
 
 
-api.get("/", (req, res) => {
-    res.send(req.oidc.isAuthenticated() ? "Logged in" : "Logged out");
-});
+// mongoose.connect(process.env.DB_CONN,
+//     { useNewUrlParser: true }, (error, res) => {
+//         if (error) {
+//             console.log("Connection failed: " + error);
+//         } else {
+//             console.log("Connected to Database.");
+//         }
+//     }
+// );
 
-api.get("/profile", requiresAuth(), (req, res) => {
-    res.send(JSON.stringify(req.oidc.user));
-});
 
 
 api
@@ -55,21 +48,23 @@ api
         res.setHeader("Access-Control-Allow-Origin", "*");
         next();
     })
-    // .use("/client", clientRoute)
-    // .use("/serviceticket", ticketRoute);
-    .get("/client", requiresAuth(), (req, res) => {
-        console.log(reg)
-        clientRoute.find()
-        .then(clients => {
-            res.status(200).json(contacts)
-        }).catch(error => {
-            res.status(500).json({ message: "An error occurred", error: error })
-        })
-    })
+    .use("/client", requiresAuth(), clientRoute)
+    .use("/ticket", requiresAuth(), ticketRoute)
+
+
+
+//Get request always needs to be after the use ^
+api.get("/", (req, res) => {
+    res.send(req.oidc.isAuthenticated() ? `Logged in as ${req.oidc.user}` : "Logged out");
+});
+api.get("/profile", requiresAuth(), (req, res) => {
+    res.send(JSON.stringify(req.oidc.user));
+});
+
 
 //Testing
 process.on("uncaughtException", (error, origin) => {
-    console.log(process.stderr.fd, `Caught error at -> ${err}\n` + `Error Origin -> ${origin}`);
+    console.log(process.stderr.fd, `Caught error at -> ${error}\n` + `Error Origin -> ${origin}`);
 });
 
 

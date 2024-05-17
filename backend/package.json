@@ -1,5 +1,5 @@
 {
-  "name": "servicejournal_api",
+  "name": "serviceticket_api",
   "version": "1.0.0",
   "description": "service journal api by AC",
   "main": "index.js",

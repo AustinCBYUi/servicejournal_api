@@ -4,7 +4,7 @@ const sTicketRoute = require("./serviceticket");
 
 routes.use("/", require("./swagger"))
 routes.use("/client", clientRoute)
-routes.use("/serviceticket", sTicketRoute);
+routes.use("/ticket", sTicketRoute);
 routes.use(
     "/",
     (docData = (req, res) => {
