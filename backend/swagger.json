@@ -54,7 +54,7 @@
                   "example": "8707 N Greenway Rd"
                 },
                 "unit": {
-                  "example": "N/A"
+                  "example": "0"
                 },
                 "city": {
                   "example": "Glendale"
@@ -69,7 +69,7 @@
                   "example": "Cell"
                 },
                 "number": {
-                  "example": "(623)818-9715"
+                  "example": "6238189715"
                 }
               }
             }
@@ -142,7 +142,7 @@
                   "example": "8707 N Greenway Rd"
                 },
                 "unit": {
-                  "example": "N/A"
+                  "example": "0"
                 },
                 "city": {
                   "example": "Glendale"
@@ -157,7 +157,7 @@
                   "example": "Cell"
                 },
                 "number": {
-                  "example": "(623)818-9715"
+                  "example": "6238189715"
                 }
               }
             }
