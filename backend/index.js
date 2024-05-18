@@ -43,7 +43,7 @@ const api = express();
 api
     .use(auth(config))
     .use(bodyParse.json())
-    .use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDoc))
+    .use("/api-docs", requiresAuth(), swaggerUI.serve, swaggerUI.setup(swaggerDoc))
     .use((req, res, next) => {
         res.setHeader("Access-Control-Allow-Origin", "*");
         next();

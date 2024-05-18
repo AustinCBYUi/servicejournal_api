@@ -3,8 +3,7 @@
   "info": {
     "title": "Service Journal API",
     "description": "An application program interface to manage data for the service journal application.",
-    "version": "1.0.3",
-    "author": "Austin Campbell @ BYU-Idaho"
+    "version": "1.1.0"
   },
   "host": "servicejournal-api.onrender.com",
   "basePath": "/",
@@ -12,23 +11,29 @@
     "https"
   ],
   "paths": {
+    "/login": {
+      "description": "Allows a user to login to authenticate and view data."
+    },
+    "/logout": {
+      "description": "Allows a user to logout safely to avoid data leaks."
+    },
     "/client/": {
       "get": {
-        "description": "Retrieves all clients from the database, returns them in json format.",
+        "description": "Retrieves all clients from the database, returns them in json format. Requires authentication prior.",
         "produces": [
           "application/json"
         ],
         "responses": {
           "200": {
-            "description": "Response is OK!"
+            "description": "OK"
           },
           "500": {
-            "description": "Response is NOT OK, something malfunctioned or is not connected correctly."
+            "description": "Internal Server Error"
           }
         }
       },
       "post": {
-        "description": "Creates a new client that is sent to be stored in the database in json format.",
+        "description": "Creates a new client that is sent to be stored in the database in json format. Requires authentication prior to usage.",
         "parameters": [
           {
             "name": "body",
@@ -40,7 +45,7 @@
                   "example": "John"
                 },
                 "lastName": {
-                  "example": "Doe"
+                  "example": "Daryl"
                 },
                 "age": {
                   "example": "35"
@@ -72,17 +77,20 @@
         ],
         "responses": {
           "204": {
-            "description": "POST was successful."
+            "description": "POST was successful"
+          },
+          "412": {
+            "description": "Validation failed"
           },
           "500": {
-            "description": "POST was unsuccessful."
+            "description": "POST was unsuccessful"
           }
         }
       }
     },
     "/client/{id}": {
       "get": {
-        "description": "Retrieves an individual client from the database by the {id} number.",
+        "description": "Retrieves an individual client from the database by the {id} number. Requires authorization prior to usage.",
         "produces": [
           "application/json"
         ],
@@ -96,18 +104,18 @@
         ],
         "responses": {
           "200": {
-            "description": "Client was retrieved successfully."
+            "description": "OK"
           },
           "501": {
             "description": "Client ID was not found."
           },
-          "500": {
-            "description": "Client ID was not retrieved"
+          "400": {
+            "description": "Bad Request"
           }
         }
       },
       "put": {
-        "description": "Updates a client's information in the database, uses modifiedCount to verify if fields were changed.",
+        "description": "Updates a client's information in the database, uses modifiedCount to verify if fields were changed. Requires authorization prior to usage.",
         "parameters": [
           {
             "name": "id",
@@ -157,15 +165,21 @@
         ],
         "responses": {
           "204": {
-            "description": "Fields were changed and pushed to the database."
+            "description": "Fields were successfully updated."
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "412": {
+            "description": "Validation of data failed"
           },
           "500": {
-            "description": "Fields were NOT changed, an error occurred."
+            "description": "Internal Server Error"
           }
         }
       },
       "delete": {
-        "description": "Deletes a client from the database by {id} number.",
+        "description": "Deletes a client from the database by {id} number. Requires authorization prior to usage.",
         "parameters": [
           {
             "name": "id",
@@ -178,29 +192,32 @@
           "204": {
             "description": "Client was deleted from the database."
           },
+          "400": {
+            "description": "Bad Request"
+          },
           "500": {
-            "description": "Client was not deleted from the database, an error occurred."
+            "description": "Internal Server Error"
           }
         }
       }
     },
-    "/serviceticket/": {
+    "/ticket/": {
       "get": {
-        "description": "Retrieves all service tickets that are stored in the service ticket database.",
+        "description": "Retrieves all service tickets that are stored in the service ticket database. Requires authorization prior to usage.",
         "produces": [
           "application/json"
         ],
         "responses": {
           "200": {
-            "description": "Response is OK!"
+            "description": "OK"
           },
           "500": {
-            "description": "Response is NOT OK, something malfunctioned or is not connected correctly."
+            "description": "Internal Server Error"
           }
         }
       },
       "post": {
-        "description": "Creates a new service ticket for a client. The cliendId, firstName and lastName should match the client database as well.",
+        "description": "Creates a new service ticket for a client. The cliendId, firstName and lastName should match the client database as well. Requires authorization prior to usage.",
         "parameters": [
           {
             "name": "body",
@@ -209,13 +226,13 @@
               "type": "object",
               "properties": {
                 "clientId": {
-                  "example": "{id}"
+                  "example": "id#"
                 },
                 "firstName": {
                   "example": "John"
                 },
                 "lastName": {
-                  "example": "Doe"
+                  "example": "Daryl"
                 },
                 "title": {
                   "example": "General Maintenance"
@@ -230,7 +247,7 @@
                   "example": "34000"
                 },
                 "desc": {
-                  "example": "Oil change. Oil used was Valvoline 10W-30 (5 quarts), and used a AutoZone oil filter."
+                  "example": "Oil change. Oil used was Valvoline 10W-30 (5 quarts), used an STP ExtendedLife Oil Filter."
                 }
               }
             }
@@ -238,17 +255,20 @@
         ],
         "responses": {
           "204": {
-            "description": "Service ticket was created and sent to the database successfully."
+            "description": "Service ticket created successfully"
+          },
+          "412": {
+            "description": "Validation of data failed"
           },
           "500": {
-            "description": "An error occurred."
+            "description": "Internal Server Error"
           }
         }
       }
     },
-    "/serviceticket/{id}": {
+    "/ticket/{id}": {
       "get": {
-        "description": "Retrieves a specific service ticket by the {id} of the service ticket, this endpoint will be updated to search by: customer Id, first name or last name.",
+        "description": "Retrieves a specific service ticket by the {id} of the service ticket, this endpoint will be updated to search by: customer Id, first name or last name. Requires authorization prior to usage.",
         "produces": [
           "application/json"
         ],
@@ -262,18 +282,21 @@
         ],
         "responses": {
           "200": {
-            "description": "Retrieved the service ticket that was requested."
+            "description": "OK"
           },
-          "501": {
-            "description": "The service ticket by {id} was not found."
+          "400": {
+            "description": "Bad Request"
           },
           "500": {
-            "description": "Service ticket was not retrieved, an error occurred."
+            "description": "Internal Server Error"
+          },
+          "501": {
+            "description": "Service Ticket not found by {id}"
           }
         }
       },
       "put": {
-        "description": "Updates the service ticket in the database, uses modifiedCount to verify if fields were changed.",
+        "description": "Updates the service ticket in the database, uses modifiedCount to verify if fields were changed. Requires authorization prior to usage.",
         "parameters": [
           {
             "name": "id",
@@ -288,7 +311,7 @@
               "type": "object",
               "properties": {
                 "clientId": {
-                  "example": "{id}"
+                  "example": "id#"
                 },
                 "firstName": {
                   "example": "Johnny"
@@ -300,7 +323,7 @@
                   "example": "General Maintenance"
                 },
                 "price": {
-                  "example": "$40.00"
+                  "example": "$45.00"
                 },
                 "date": {
                   "example": "23OCT2024"
@@ -317,15 +340,21 @@
         ],
         "responses": {
           "204": {
-            "description": "Service ticket contents were updated and pushed to the database."
+            "description": "Service ticket successfully updated"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "412": {
+            "description": "Validation of data failed"
           },
           "500": {
-            "description": "Service ticket was not updated, an error occurred."
+            "description": "Internal Server Error"
           }
         }
       },
       "delete": {
-        "description": "Deletes a service ticket from the database.",
+        "description": "Deletes a service ticket from the database. Requires authorization prior to usage.",
         "parameters": [
           {
             "name": "id",
@@ -336,10 +365,13 @@
         ],
         "responses": {
           "204": {
-            "description": "Service ticket was deleted from the database."
+            "description": "Service ticket was deleted successfully."
+          },
+          "400": {
+            "description": "Bad Request"
           },
           "500": {
-            "description": "Service ticket was not deleted, an error occurred."
+            "description": "Internal Server Error"
           }
         }
       }
