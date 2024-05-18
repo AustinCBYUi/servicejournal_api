@@ -375,8 +375,7 @@
           }
         }
       }
-    }
-  },
+    },
     "/employee/": {
       "get": {
         "description": "Retrieves all employees stored in the database, requires authorization to use.",
@@ -674,25 +673,26 @@
           }
         }
       },
-    "delete": {
-      "description": "Deletes a vehicle from the database, requires authorization to use.",
-      "parameters": [
-        {
-          "name": "id",
-          "in": "path",
-          "required": true,
-          "type": "string"
-        }
-      ],
-      "responses": {
-        "204": {
-          "description": "Vehicle was deleted successfully"
-        },
-        "400": {
-          "description": "Bad Request"
-        },
-        "500": {
-          "description": "Internal Server Error"
+      "delete": {
+        "description": "Deletes a vehicle from the database, requires authorization to use.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Vehicle was deleted successfully"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
         }
       }
     }
