@@ -4,14 +4,14 @@ const saveClient = (req, res, next) => {
     const validRules = {
         firstName: "required|string",
         lastName: "required|string",
-        age: "required|int",
+        age: "required|integer",
         streetAddress: "required|string",
-        unit: "int",
+        unit: "integer",
         city: "required|string",
         state: "required|string",
-        postalCode: "required|int",
+        postalCode: "required|integer",
         type: "required|string",
-        number: "required|int"
+        number: "required|integer"
     };
     validator(req.body, validRules, {}, (error, status) => {
         if (!status) {
@@ -35,7 +35,7 @@ const saveTicket = (req, res, next) => {
         title: "string",
         price: "string",
         date: "date",
-        mileage: "int",
+        mileage: "integer",
         desc: "string"
     };
     validator(req.body, validRules, {}, (error, status) => {
