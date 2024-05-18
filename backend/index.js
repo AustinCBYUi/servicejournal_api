@@ -3,13 +3,19 @@ const bodyParse = require("body-parser");
 const MongoClient = require("mongodb").MongoClient;
 const mongoose = require("mongoose");
 const mongo = require("./db/lasso");
+
+//Routes\\
 const clientRoute = require("./routes/client");
 const ticketRoute = require("./routes/serviceticket");
+const employeeRoute = require("./routes/employee");
+const vehicleRoute = require("./routes/vehicle");
+
+//Swagger Autogen stuff for Documentation\\
 const swagger = require("swagger-autogen");
 const swaggerUI = require("swagger-ui-express");
 const swaggerDoc = require("./swagger.json");
 
-//Authentication Stuff
+//Authentication Stuff using Auth0
 const { auth, requiresAuth } = require("express-openid-connect");
 require("dotenv").config();
 
@@ -50,6 +56,8 @@ api
     })
     .use("/client", requiresAuth(), clientRoute)
     .use("/ticket", requiresAuth(), ticketRoute)
+    .use("/employee", requiresAuth(), employeeRoute)
+    .use("/vehicle", requiresAuth(), vehicleRoute)
 
 
 
